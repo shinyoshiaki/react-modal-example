@@ -56,7 +56,7 @@ const Base = styled.div<{ open: boolean; minWidth?: number }>`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  width: ${({ minWidth }) => minWidth || 400}px;
+  min-width: ${({ minWidth }) => minWidth || 400}px;
   animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.1s ease-in forwards;
 `;
 const Backdrop = styled.div<{ open: boolean }>`
