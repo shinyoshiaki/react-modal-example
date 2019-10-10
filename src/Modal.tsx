@@ -26,23 +26,19 @@ const Modal: React.FC<{
 
 const fadeIn = keyframes`
 from {
-  opacity:0
-  scale:0.8
+  opacity:0  
 }
 to {
-  opacity: 0.7;
-  scale:1
+  opacity: 0.7;  
 }
 `;
 
 const fadeOut = keyframes`
 from {
-  opacity: 0.7;
-  scale:1
+  opacity: 0.7; 
 }
 to {
   opacity:0
-  scale:0.8
   visibility:hidden
 }
 `;
@@ -57,7 +53,7 @@ const Base = styled.div<{ open: boolean; minWidth?: number }>`
   transform: translate(-50%, -50%);
   z-index: 2;
   min-width: ${({ minWidth }) => minWidth || 400}px;
-  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.1s ease-in forwards;
+  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in forwards;
 `;
 const Backdrop = styled.div<{ open: boolean }>`
   position: fixed;
@@ -66,7 +62,7 @@ const Backdrop = styled.div<{ open: boolean }>`
   width: 100vw;
   background: black;
   opacity: 0.7;
-  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.1s ease-in;
+  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in;
 `;
 
 const Container = styled.div<{ open: boolean }>`
