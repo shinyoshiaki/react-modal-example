@@ -1,75 +1,62 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { FC, Fragment, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-const Modal: React.FC<{
+const Modal: FC<{
   open: boolean;
   minWidth?: number;
   onClose?: () => void;
-}> = ({ minWidth, children, open, onClose }) => {
-  const [opened, setOpened] = useState(open);
+}> = ({ open, children, onClose }) => {
+  const [drawed, setDrawed] = useState(false);
 
-  useEffect(() => {
-    open && setOpened(true);
-  }, [open]);
+  console.log({ open, drawed });
+
+  useEffect(() => setDrawed(true), []);
 
   return (
     <Fragment>
-      {(opened || open) && (
-        <Base open={open} minWidth={minWidth}>
-          <Container open={open}>{children}</Container>
-          <Backdrop open={open} onClick={onClose}></Backdrop>
-        </Base>
-      )}
+      <Backdrop onClick={onClose} open={open} drawed={drawed}>
+        <Container onClick={e => e.stopPropagation()}>{children}</Container>
+      </Backdrop>
     </Fragment>
   );
 };
 
 const fadeIn = keyframes`
 from {
-  opacity:0  
+  opacity:0;
 }
 to {
-  opacity: 0.7;  
+  opacity:0.7;
+  visibility:visible;
 }
 `;
 
 const fadeOut = keyframes`
 from {
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 to {
-  opacity:0
-  visibility:hidden
+  opacity:0;  
 }
 `;
 
-const Base = styled.div<{ open: boolean; minWidth?: number }>`
+const Backdrop = styled.div<{ open: boolean; drawed: boolean }>`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: black;
+  visibility: hidden;
+  animation: ${({ open, drawed }) => (drawed ? (open ? fadeIn : fadeOut) : "")}
+    2s ease forwards;
+`;
+
+const Container = styled.div`
   position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
-  min-width: ${({ minWidth }) => minWidth || 400}px;
-  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in forwards;
-`;
-const Backdrop = styled.div<{ open: boolean }>`
-  position: fixed;
-  z-index: 1;
-  height: 100vh;
-  width: 100vw;
-  background: black;
-  opacity: 0.7;
-  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in;
-`;
-
-const Container = styled.div<{ open: boolean }>`
-  z-index: 2;
-  width: 100%;
-  background-color: white;
-  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in;
+  background: white;
 `;
 
 export default Modal;
