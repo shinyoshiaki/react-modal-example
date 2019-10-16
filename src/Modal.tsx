@@ -8,10 +8,11 @@ const Modal: FC<{
 }> = ({ open, children, onClose }) => {
   return (
     <Base open={open}>
-      <Backdrop onClick={onClose} open={open}></Backdrop>
-      <Container open={open} onClick={e => e.stopPropagation()}>
-        {children}
-      </Container>
+      <Backdrop onClick={onClose} open={open}>
+        <Container open={open} onClick={e => e.stopPropagation()}>
+          {children}
+        </Container>
+      </Backdrop>
     </Base>
   );
 };
@@ -26,7 +27,7 @@ from {
   opacity:0
 }
 to {
-  opacity:0.7
+  opacity:1
 }
 `;
 
@@ -45,7 +46,7 @@ const Backdrop = styled.div<{ open: boolean }>`
   top: 0;
   bottom: 0;
   width: 100%;
-  background: black;
+  background: rgba(1, 1, 1, 0.7);
   animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in forwards;
 `;
 
