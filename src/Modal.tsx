@@ -9,9 +9,7 @@ const Modal: FC<{
   return (
     <Base open={open}>
       <Backdrop onClick={onClose} open={open}>
-        <Container open={open} onClick={e => e.stopPropagation()}>
-          {children}
-        </Container>
+        <Container onClick={e => e.stopPropagation()}>{children}</Container>
       </Backdrop>
     </Base>
   );
@@ -50,7 +48,7 @@ const Backdrop = styled.div<{ open: boolean }>`
   animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in forwards;
 `;
 
-const Container = styled.div<{ open: boolean }>`
+const Container = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
