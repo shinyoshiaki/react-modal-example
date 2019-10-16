@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC } from "react";
 import styled, { keyframes } from "styled-components";
 
 const Modal: FC<{
@@ -6,28 +6,27 @@ const Modal: FC<{
   minWidth?: number;
   onClose?: () => void;
 }> = ({ open, children, onClose }) => {
-  const [drawed, setDrawed] = useState(false);
-
-  console.log({ open, drawed });
-
-  useEffect(() => setDrawed(true), []);
-
   return (
-    <Fragment>
-      <Backdrop onClick={onClose} open={open} drawed={drawed}>
-        <Container onClick={e => e.stopPropagation()}>{children}</Container>
-      </Backdrop>
-    </Fragment>
+    <Base open={open}>
+      <Backdrop onClick={onClose} open={open}></Backdrop>
+      <Container open={open} onClick={e => e.stopPropagation()}>
+        {children}
+      </Container>
+    </Base>
   );
 };
 
+const Base = styled.div<{ open: boolean }>`
+  opacity: ${({ open }) => (open ? `0.7` : `0`)};
+  transition: opacity 0.3s;
+`;
+
 const fadeIn = keyframes`
 from {
-  opacity:0;
+  opacity:0
 }
 to {
-  opacity:0.7;
-  visibility:visible;
+  opacity:0.7
 }
 `;
 
@@ -36,22 +35,21 @@ from {
   opacity: 0.7;
 }
 to {
-  opacity:0;  
+  opacity:0;
+  visibility:hidden;
 }
 `;
 
-const Backdrop = styled.div<{ open: boolean; drawed: boolean }>`
+const Backdrop = styled.div<{ open: boolean }>`
   position: fixed;
   top: 0;
   bottom: 0;
   width: 100%;
   background: black;
-  visibility: hidden;
-  animation: ${({ open, drawed }) => (drawed ? (open ? fadeIn : fadeOut) : "")}
-    2s ease forwards;
+  animation: ${({ open }) => (open ? fadeIn : fadeOut)} 0.3s ease-in forwards;
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ open: boolean }>`
   position: absolute;
   top: 50%;
   left: 50%;
